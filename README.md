@@ -1,14 +1,14 @@
 # Getting_and_cleaning_data_Course_Assignment
 This is the repo for course assignment of Getting and cleaning data
 
-This is the repo for course assignment of Getting and cleaning data.
-
 Brief Content of README:
+	
 	1.Introduction to the assignment
 	2.About this repository
 
 --------------------------------------------------------
 1.Introduction of this assignment
+	
 	Course Name: 
 		Getting And Cleaning Data,  Data Science Specialization, presented by Johns Hopkins University, on coursera
 	Purporse to the assignment:
@@ -34,6 +34,7 @@ Brief Content of README:
 
 
 2.About this repository
+	
 	Threre are four files in this repository.
 	
 	README.md
@@ -61,3 +62,4 @@ Brief Content of README:
 	tidy_data.txt
 		This is the tidy data set that required in the assignment.
 
+	
