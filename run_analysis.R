@@ -18,106 +18,106 @@
 
 ############################################################
 ##First step: Getting the file ---- download, unzip
-  if(!file.exists("./data")){dir.create("./data")}
+    if(!file.exists("./data")){dir.create("./data")}
 
-  fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-  download.file(fileUrl,destfile="./data/Dataset.zip") 
+    fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    download.file(fileUrl,destfile="./data/Dataset.zip") 
 
-  unzip(zipfile="./data/Dataset.zip",exdir="./data")
+    unzip(zipfile="./data/Dataset.zip",exdir="./data")
 
-  path1 <- file.path("./data" , "UCI HAR Dataset")
-  files<-list.files(path1, recursive=TRUE)
-  files
+    path1 <- file.path("./data" , "UCI HAR Dataset")
+    files<-list.files(path1, recursive=TRUE)
+    files
 
 #Second step: Reading the file ---- understand the experiment, read data, view data
 #read data set files
-  DataTest  <- read.table(file.path(path1, "test" , "X_test.txt" ),
+    DataTest  <- read.table(file.path(path1, "test" , "X_test.txt" ),
                         header = FALSE)
-  DataTrain <- read.table(file.path(path1, "train", "X_train.txt"),
+    DataTrain <- read.table(file.path(path1, "train", "X_train.txt"),
                         header = FALSE)
 #read activity label files
-  LabelTest  <- read.table(file.path(path1, "test" , "Y_test.txt" ),
+    LabelTest  <- read.table(file.path(path1, "test" , "Y_test.txt" ),
                          header = FALSE)
-  LabelTrain <- read.table(file.path(path1, "train", "Y_train.txt"),
+    LabelTrain <- read.table(file.path(path1, "train", "Y_train.txt"),
                          header = FALSE)
 #read subject files
-  SubjectTrain <- read.table(file.path(path1, "train", "subject_train.txt"),
+    SubjectTrain <- read.table(file.path(path1, "train", "subject_train.txt"),
                            header = FALSE)
-  SubjectTest  <- read.table(file.path(path1, "test" , "subject_test.txt"),
+    SubjectTest  <- read.table(file.path(path1, "test" , "subject_test.txt"),
                            header = FALSE)
 #view data
-  str(DataTest)
-  str(DataTrain)
-  str(LabelTest)
-  str(LabelTrain)
-  str(SubjectTest)
-  str(SubjectTrain)
+    str(DataTest)
+    str(DataTrain)
+    str(LabelTest)
+    str(LabelTrain)
+    str(SubjectTest)
+    str(SubjectTrain)
 
 #Third step: Merging the data set
 #merge by rows
-  Subject <- rbind(SubjectTrain, SubjectTest)
-  Label<- rbind(LabelTrain, LabelTest)
-  Data<- rbind(DataTrain, DataTest)
+    Subject <- rbind(SubjectTrain, SubjectTest)
+    Label<- rbind(LabelTrain, LabelTest)
+    Data<- rbind(DataTrain, DataTest)
 #set names to columns
-  names(Subject)<-c("subject")
-  names(Label)<- c("activity")
-  featuresNames <- read.table(file.path(path1, "features.txt"),head=FALSE)
-  names(Data)<- featuresNames$V2
+    names(Subject)<-c("subject")
+    names(Label)<- c("activity")
+    featuresNames <- read.table(file.path(path1, "features.txt"),head=FALSE)
+    names(Data)<- featuresNames$V2
 #merge by columns
-  feature <- cbind(Subject, Label)
-  oneData <- cbind(feature, Data)
+    feature <- cbind(Subject, Label)
+    oneData <- cbind(feature, Data)
 
 #Forth step: Extracting specific variables
 #select "mean" "std"
-  selectedFeatures<-featuresNames$V2[grep("mean\\(\\)|std\\(\\)", featuresNames$V2)]
+    selectedFeatures<-featuresNames$V2[grep("mean\\(\\)|std\\(\\)", featuresNames$V2)]
 #subset data set
-  selectedNames<-c( "subject", "activity",as.character(selectedFeatures))
-  extractData<-subset(oneData,select=selectedNames)
+    selectedNames<-c( "subject", "activity",as.character(selectedFeatures))
+    extractData<-subset(oneData,select=selectedNames)
 
 #Fifth step: Naming activities
 #read activity label.txt
-  activityLabels <- read.table(file.path(path1, "activity_labels.txt"),header = FALSE)
+    activityLabels <- read.table(file.path(path1, "activity_labels.txt"),header = FALSE)
 #factorize activity
-  extractData$activity <- as.character(extractData$activity)
-  for (i in 1:6){
+    extractData$activity <- as.character(extractData$activity)
+    for (i in 1:6){
                 extractData$activity[extractData$activity == i] <- as.character(activityLabels[i,2])
-  }
-  extractData$activity <- as.factor(extractData$activity)
-  View(extractData)
+    }
+    extractData$activity <- as.factor(extractData$activity)
+    View(extractData)
 
 #Sixth step: Labeling the variables
-  names(extractData)<-gsub("Acc", "Accelerometer", names(extractData))
-  names(extractData)<-gsub("Gyro", "Gyroscope", names(extractData))
-  names(extractData)<-gsub("BodyBody", "Body", names(extractData))
-  names(extractData)<-gsub("Mag", "Magnitude", names(extractData))
-  names(extractData)<-gsub("^t", "Time", names(extractData))
-  names(extractData)<-gsub("^f", "Frequency", names(extractData))
-  names(extractData)<-gsub("tBody", "TimeBody", names(extractData))
-  names(extractData)<-gsub("-mean()", "Mean", names(extractData), ignore.case = TRUE)
-  names(extractData)<-gsub("-std()", "STD", names(extractData), ignore.case = TRUE)
-  names(extractData)<-gsub("-freq()", "Frequency", names(extractData), ignore.case = TRUE)
-  names(extractData)<-gsub("angle", "Angle", names(extractData))
-  names(extractData)<-gsub("gravity", "Gravity", names(extractData))
+    names(extractData)<-gsub("Acc", "Accelerometer", names(extractData))
+    names(extractData)<-gsub("Gyro", "Gyroscope", names(extractData))
+    names(extractData)<-gsub("BodyBody", "Body", names(extractData))
+    names(extractData)<-gsub("Mag", "Magnitude", names(extractData))
+    names(extractData)<-gsub("^t", "Time", names(extractData))
+    names(extractData)<-gsub("^f", "Frequency", names(extractData))
+    names(extractData)<-gsub("tBody", "TimeBody", names(extractData))
+    names(extractData)<-gsub("-mean()", "Mean", names(extractData), ignore.case = TRUE)
+    names(extractData)<-gsub("-std()", "STD", names(extractData), ignore.case = TRUE)
+    names(extractData)<-gsub("-freq()", "Frequency", names(extractData), ignore.case = TRUE)
+    names(extractData)<-gsub("angle", "Angle", names(extractData))
+    names(extractData)<-gsub("gravity", "Gravity", names(extractData))
 #assign data set to tidyData
-  tidyData<- extractData
+    tidyData<- extractData
 #view names
-  names(tidyData)
+    names(tidyData)
 
 #Seventh step: Creating new tidy dataset with the data from sixth step
 #get average data
-  library(dplyr)
-  averageData <- tidyData %>%
+    library(dplyr)
+    averageData <- tidyData %>%
             group_by(subject, activity) %>%
             summarise_all(funs(mean))%>%
             ungroup()
 #rename variables
-  colName <- c(names(averageData[c(1,2)]),
+    colName <- c(names(averageData[c(1,2)]),
                            paste0("Average", names(averageData[-c(1, 2)])))
-  names(averageData) <- colName
+    names(averageData) <- colName
 #save data set to "tidy_data.txt"
-  write.table(averageData, "tidy_data.txt", row.name=FALSE)
+    write.table(averageData, "tidy_data.txt", row.name=FALSE)
 #check tidy data
-str(averageData)
+    str(averageData)
 
 #####################################################################
 ###The end
