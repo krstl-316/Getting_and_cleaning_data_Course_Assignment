@@ -57,7 +57,8 @@ Brief Content of README:
 		This file contains all the metadata and informations on tidy_data.txt file.
 		Contents:
 			1.A step by step introduction of the run_analysis.R file
-			2.License
+			2.Description of variables in tidy_data.txt file
+			3.License
 	
 	tidy_data.txt
 		This is the tidy data set that required in the assignment.
